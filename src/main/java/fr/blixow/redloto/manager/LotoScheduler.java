@@ -11,9 +11,9 @@ public class LotoScheduler extends BukkitRunnable {
         RedLoto.gameRunning = false;
         RedLoto.getLotoLogger().info(RedLoto.getLotoLogger().getName() + " Starting loto pickup...");
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage("§7[§2CelestiamLotto§7] Tirage en cours...");
+            player.sendMessage("§7[§RedLoto§7] Tirage en cours...");
         }
-        RedLoto.getInstance().closeLottoInventory();
+        RedLoto.getInstance().closeLotoInventory();
         if (RedLoto.getInstance().haveAWinner()) {
             LotoCard card = RedLoto.getInstance().selectWinner();
             int gain = card.getCardValue() * RedLoto.getInstance().getLotoConfig().get().getInt("loto.multiplier");
