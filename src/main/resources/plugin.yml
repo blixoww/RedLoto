@@ -1,0 +1,4 @@
+name: RedLoto
+version: '${project.version}'
+main: fr.blixow.redloto.RedLoto
+depend: [Vault]
