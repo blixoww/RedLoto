@@ -61,7 +61,7 @@ public final class RedLoto extends JavaPlugin {
             Player player;
             InventoryView inventory;
             Player offlinePlayer = Bukkit.getPlayer(lottoPlayer.getOwnerName());
-            if (offlinePlayer != null && offlinePlayer.isOnline() && (inventory = (player = offlinePlayer).getOpenInventory()) != null && inventory.getTitle().contains("Lotto")) {
+            if (offlinePlayer != null && offlinePlayer.isOnline() && (inventory = (player = offlinePlayer).getOpenInventory()) != null && inventory.getTitle().contains("Loto")) {
                 player.closeInventory();
             }
             int refundValue = 0;
@@ -74,9 +74,15 @@ public final class RedLoto extends JavaPlugin {
             this.getVaultAPI().getEconomy().depositPlayer(offlinePlayer, refundValue);
         }
         this.clearSession();
-        lotoScheduler.cancel();
-        lotoStartingDelay.cancel();
-        lotoMessageScheduler.cancel();
+        if (lotoScheduler != null && lotoScheduler.getTaskId() != -1) {
+            lotoScheduler.cancel();
+        }
+        if (lotoStartingDelay != null && lotoStartingDelay.getTaskId() != -1) {
+            lotoStartingDelay.cancel();
+        }
+        if (lotoMessageScheduler != null && lotoMessageScheduler.getTaskId() != -1) {
+            lotoMessageScheduler.cancel();
+        }
     }
 
     public boolean isPlayerInPlaying(Player player) {
