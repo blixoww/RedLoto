@@ -30,7 +30,7 @@ public class LotoInventory {
             this.inventory.setItem(i, this.createItem(" ", " ", Material.STAINED_GLASS_PANE, (short) 7, 1));
         }
 
-        int cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("lotto.cardValue");
+        int cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("loto.cardValue");
         List<String> description = Arrays.asList("§7Clique ici pour acheter une nouvelle carte !", "§7Valeur de §c" + cardValue + " " + this.moneyName + ".");
         this.inventory.setItem(25, this.createItem("§2Acheter une carte", description, Material.GOLD_NUGGET, 1));
         this.inventory.setItem(26, this.createItem("§4Fermer", "§7Fermer le menu lotto.", Material.BARRIER, 1));

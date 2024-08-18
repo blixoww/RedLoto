@@ -14,7 +14,7 @@ public class LotoMessageScheduler extends BukkitRunnable {
                 player.sendMessage(" ");
                 player.sendMessage("§8§m-------------------------------------------------");
                 player.sendMessage(" ");
-                player.sendMessage("§7[§2RedLoto§7] Un lotto est en cours ! Faites vos jeux... (/loto)");
+                player.sendMessage("§7[§2RedLoto§7] Un loto est en cours ! Faites vos jeux... (/loto)");
                 player.sendMessage(" ");
                 player.sendMessage("§8§m-------------------------------------------------");
             }

@@ -18,7 +18,7 @@ public class LotoCardInventory {
     private final String moneyName;
 
     public LotoCardInventory(LotoCard card) {
-        this.inventory = Bukkit.createInventory((InventoryHolder)null, 27, "Lotto Carte :" + card.getID());
+        this.inventory = Bukkit.createInventory((InventoryHolder)null, 27, "Loto Carte :" + card.getID());
         this.moneyName = RedLoto.getInstance().getVaultAPI().getEconomy().currencyNamePlural();
         this.setupInventory(card);
     }

@@ -16,7 +16,7 @@ public class LotoInventoryEvent implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getClickedInventory() != null) {
-            if (event.getClickedInventory().getName().equals("Lotto")) {
+            if (event.getClickedInventory().getName().equals("Loto")) {
                 if (event.getCurrentItem() != null) {
                     event.setCancelled(true);
                     ItemStack itemStack = event.getCurrentItem();
@@ -33,9 +33,9 @@ public class LotoInventoryEvent implements Listener {
 
                     if (itemStack.getType() == Material.GOLD_NUGGET) {
                         LotoPlayer player = RedLoto.getInstance().getLottoPlayer(event.getWhoClicked().getName());
-                        if (player.getCards().size() < RedLoto.getInstance().getLotoConfig().get().getInt("lotto.maxCard")) {
+                        if (player.getCards().size() < RedLoto.getInstance().getLotoConfig().get().getInt("loto.maxCard")) {
                             OfflinePlayer offlinePlayer = Bukkit.getPlayer(player.getOwnerName());
-                            int cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("lotto.cardValue");
+                            int cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("loto.cardValue");
                             if (RedLoto.getInstance().getVaultAPI().getEconomy().getBalance(offlinePlayer) >= (double) cardValue) {
                                 RedLoto.getInstance().getVaultAPI().getEconomy().withdrawPlayer(offlinePlayer, (double) cardValue);
                                 LotoCard card = new LotoCard(player.getOwnerName(), RedLoto.getInstance().newCardID());
@@ -49,7 +49,7 @@ public class LotoInventoryEvent implements Listener {
                         }
                     }
                 }
-            } else if (event.getClickedInventory().getName().contains("Lotto Carte :") && event.getCurrentItem() != null) {
+            } else if (event.getClickedInventory().getName().contains("Loto Carte :") && event.getCurrentItem() != null) {
                 event.setCancelled(true);
                 ItemStack itemStack = event.getCurrentItem();
                 if (itemStack.getType() == Material.BARRIER) {
@@ -64,7 +64,7 @@ public class LotoInventoryEvent implements Listener {
                 LotoPlayer player = RedLoto.getInstance().getLottoPlayer(event.getWhoClicked().getName());
                 if (itemStack.getType() == Material.WOOL && itemStack.getDurability() == 14) {
                     LotoCard card = player.getCardByInventoryName(event.getClickedInventory().getTitle());
-                    int cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("lotto.cardValue");
+                    int cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("loto.cardValue");
                     OfflinePlayer offlinePlayer = Bukkit.getPlayer(player.getOwnerName());
                     if (card.getCardValue() - cardValue >= cardValue) {
                         RedLoto.getInstance().getVaultAPI().getEconomy().depositPlayer(offlinePlayer, (double) cardValue);
@@ -77,7 +77,7 @@ public class LotoInventoryEvent implements Listener {
 
                 if (itemStack.getType() == Material.WOOL && itemStack.getDurability() == 5) {
                     LotoCard card = player.getCardByInventoryName(event.getClickedInventory().getTitle());
-                    int cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("lotto.cardValue");
+                    int cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("loto.cardValue");
                     OfflinePlayer offlinePlayer = Bukkit.getPlayer(player.getOwnerName());
                     if (RedLoto.getInstance().getVaultAPI().getEconomy().getBalance(offlinePlayer) >= (double) cardValue) {
                         RedLoto.getInstance().getVaultAPI().getEconomy().withdrawPlayer(offlinePlayer, (double) cardValue);

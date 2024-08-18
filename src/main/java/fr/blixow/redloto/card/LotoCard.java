@@ -13,12 +13,12 @@ public class LotoCard {
         this.ownerName = ownerName;
         this.ID = cardID;
         RedLoto.getInstance().addInGameCard(this);
-        this.cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("lotto.cardValue");
+        this.cardValue = RedLoto.getInstance().getLotoConfig().get().getInt("loto.cardValue");
         this.inventory = new LotoCardInventory(this);
     }
 
     public boolean removeValue(int value) {
-        if (this.cardValue - value >= RedLoto.getInstance().getLotoConfig().get().getInt("lotto.cardValue")) {
+        if (this.cardValue - value >= RedLoto.getInstance().getLotoConfig().get().getInt("loto.cardValue")) {
             this.cardValue -= value;
             return true;
         } else {

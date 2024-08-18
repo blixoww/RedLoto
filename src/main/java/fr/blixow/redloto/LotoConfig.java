@@ -55,13 +55,13 @@ public class LotoConfig {
     }
 
     private void writeConfig() {
-        this.configuration.set("lotto.multiplier", 8);
-        this.configuration.set("lotto.cardValue", 50);
-        this.configuration.set("lotto.maxCard", 5);
-        this.configuration.set("lotto.winRate", 0.2D);
-        this.configuration.set("lotto.timer", 600);
-        this.configuration.set("lotto.delay", 3600);
-        this.configuration.set("lotto.messageTimer", 300);
+        this.configuration.set("loto.multiplier", 8);
+        this.configuration.set("loto.cardValue", 50);
+        this.configuration.set("loto.maxCard", 5);
+        this.configuration.set("loto.winRate", 0.2D);
+        this.configuration.set("loto.timer", 600);
+        this.configuration.set("loto.delay", 3600);
+        this.configuration.set("loto.messageTimer", 300);
     }
 
     public void saveConfig() {

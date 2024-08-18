@@ -8,7 +8,6 @@ import fr.blixow.redloto.manager.LotoPlayer;
 import fr.blixow.redloto.manager.LotoScheduler;
 import fr.blixow.redloto.manager.LotoStartingDelay;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
@@ -42,44 +41,38 @@ public final class RedLoto extends JavaPlugin {
 
     public void onEnable() {
         vaultAPI = new VaultAPI(this.getServer());
-        if (vaultAPI.getEconomy() != null) {
-            logger.info("[" + logger.getName() + "] Economy is now setup !");
-            this.lotoConfig = new LotoConfig();
-            Bukkit.getPluginManager().registerEvents(new LotoInventoryEvent(), this);
-            this.initServerCommandMap();
-            this.registerCommands(new LotoCommand("loto"), "loto");
-            lotoScheduler = new LotoScheduler();
-            lotoStartingDelay = new LotoStartingDelay();
-            lotoMessageScheduler = new LotoMessageScheduler();
-            long delay = (long) getInstance().getLotoConfig().get().getInt("lotto.delay");
-            lotoStartingDelay.runTaskLaterAsynchronously(this, delay * 20L);
+        if (vaultAPI.getEconomy() == null) {
+            return;
         }
+        logger.info("[" + logger.getName() + "] Economy is now setup !");
+        this.lotoConfig = new LotoConfig();
+        Bukkit.getPluginManager().registerEvents(new LotoInventoryEvent(), this);
+        this.initServerCommandMap();
+        this.registerCommands(new LotoCommand("loto"), "loto");
+        lotoScheduler = new LotoScheduler();
+        lotoStartingDelay = new LotoStartingDelay();
+        lotoMessageScheduler = new LotoMessageScheduler();
+        long delay = RedLoto.getInstance().getLotoConfig().get().getInt("loto.delay");
+        lotoStartingDelay.runTaskLaterAsynchronously(this, delay * 20L);
     }
 
     public void onDisable() {
         for (LotoPlayer lottoPlayer : this.lotoPlayers) {
-            OfflinePlayer offlinePlayer = Bukkit.getPlayer(lottoPlayer.getOwnerName());
-            if (offlinePlayer != null && offlinePlayer.isOnline()) {
-                Player player = (Player) offlinePlayer;
-                InventoryView inventory = player.getOpenInventory();
-                if (inventory != null && inventory.getTitle().contains("Lotto")) {
-                    player.closeInventory();
-                }
+            Player player;
+            InventoryView inventory;
+            Player offlinePlayer = Bukkit.getPlayer(lottoPlayer.getOwnerName());
+            if (offlinePlayer != null && offlinePlayer.isOnline() && (inventory = (player = offlinePlayer).getOpenInventory()) != null && inventory.getTitle().contains("Lotto")) {
+                player.closeInventory();
             }
-
             int refundValue = 0;
-
             for (LotoCard card : lottoPlayer.getCards()) {
                 refundValue += card.getCardValue();
             }
-
             if (refundValue >= 100) {
                 refundValue -= 100;
             }
-
-            this.getVaultAPI().getEconomy().depositPlayer(offlinePlayer, (double) refundValue);
+            this.getVaultAPI().getEconomy().depositPlayer(offlinePlayer, refundValue);
         }
-
         this.clearSession();
         lotoScheduler.cancel();
         lotoStartingDelay.cancel();
@@ -126,24 +119,23 @@ public final class RedLoto extends JavaPlugin {
             field.setAccessible(true);
             this.bukkitCommandMap = (CommandMap) field.get(Bukkit.getPluginManager());
             logger.info("[" + logger.getName() + "] Map is now set accessible and can be use !");
-        } catch (IllegalAccessException | NoSuchFieldException var2) {
+        } catch (IllegalAccessException | NoSuchFieldException exception) {
             logger.severe("[" + logger.getName() + "] Bukkit command map cannot be accessible !");
-            var2.printStackTrace();
+            exception.printStackTrace();
         }
-
     }
 
     public boolean haveAWinner() {
         int nbCardsInGame = this.inGameCards.size();
-        double winRate = this.lotoConfig.get().getDouble("lotto.winRate") * 100.0D;
-        getLotoLogger().info("WinRate: " + winRate);
+        double winRate = this.lotoConfig.get().getDouble("lotto.winRate") * 100.0;
+        RedLoto.getLotoLogger().info("WinRate: " + winRate);
         if (nbCardsInGame <= 0) {
             return false;
-        } else if ((double) nbCardsInGame < winRate) {
-            return (double) (new Random()).nextInt(100) <= winRate;
-        } else {
-            return true;
         }
+        if ((double) nbCardsInGame < winRate) {
+            return (double) new Random().nextInt(100) <= winRate;
+        }
+        return true;
     }
 
     public LotoCard selectWinner() {
@@ -152,13 +144,13 @@ public final class RedLoto extends JavaPlugin {
         return (LotoCard) this.inGameCards.get(randomisedCard);
     }
 
-    public void closeLottoInventory() {
+    public void closeLotoInventory() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             InventoryView inventory = player.getOpenInventory();
             if (inventory != null) {
-                if (inventory.getTitle().equals("Lotto")) {
+                if (inventory.getTitle().equals("Loto")) {
                     inventory.close();
-                } else if (inventory.getTitle().contains("Lotto Carte :")) {
+                } else if (inventory.getTitle().contains("Loto Carte :")) {
                     inventory.close();
                 }
             }
