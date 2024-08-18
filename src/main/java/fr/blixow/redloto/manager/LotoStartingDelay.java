@@ -13,9 +13,10 @@ public class LotoStartingDelay extends BukkitRunnable {
             player.sendMessage(" ");
             player.sendMessage("§8§m-------------------------------------------------");
             player.sendMessage(" ");
-            player.sendMessage("§7[§RedLoto§7] Lancement du prochain Loto, résultat dans : " + delayInMin + " mins ! Faites vos jeux... (/loto)");
+            player.sendMessage("§7[§2RedLoto§7] Lancement du Loto, résultat dans : " + delayInMin + " mins ! Faites vos jeux... (/loto)");
             player.sendMessage(" ");
             player.sendMessage("§8§m-------------------------------------------------");
+            player.sendMessage(" ");
         }
         RedLoto.gameRunning = true;
         RedLoto.lotoScheduler = new LotoScheduler();

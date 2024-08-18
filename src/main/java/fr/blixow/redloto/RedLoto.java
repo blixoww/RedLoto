@@ -58,22 +58,24 @@ public final class RedLoto extends JavaPlugin {
 
     public void onDisable() {
         for (LotoPlayer lottoPlayer : this.lotoPlayers) {
-            Player player;
-            InventoryView inventory;
             Player offlinePlayer = Bukkit.getPlayer(lottoPlayer.getOwnerName());
-            if (offlinePlayer != null && offlinePlayer.isOnline() && (inventory = (player = offlinePlayer).getOpenInventory()) != null && inventory.getTitle().contains("Loto")) {
-                player.closeInventory();
+            if (offlinePlayer != null && offlinePlayer.isOnline()) {
+                InventoryView inventory = offlinePlayer.getOpenInventory();
+                if (inventory != null && inventory.getTitle().contains("Loto")) {
+                    offlinePlayer.closeInventory();
+                }
+                int refundValue = 0;
+                for (LotoCard card : lottoPlayer.getCards()) {
+                    refundValue += card.getCardValue();
+                }
+                if (refundValue >= 100) {
+                    refundValue -= 100;
+                }
+                this.getVaultAPI().getEconomy().depositPlayer(offlinePlayer, refundValue);
             }
-            int refundValue = 0;
-            for (LotoCard card : lottoPlayer.getCards()) {
-                refundValue += card.getCardValue();
-            }
-            if (refundValue >= 100) {
-                refundValue -= 100;
-            }
-            this.getVaultAPI().getEconomy().depositPlayer(offlinePlayer, refundValue);
         }
         this.clearSession();
+
         if (lotoScheduler != null && lotoScheduler.getTaskId() != -1) {
             lotoScheduler.cancel();
         }
