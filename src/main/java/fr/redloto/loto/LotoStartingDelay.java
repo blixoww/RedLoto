@@ -15,7 +15,7 @@ public class LotoStartingDelay extends BukkitRunnable {
             player.sendMessage(" ");
             player.sendMessage("§8§m-------------------------------------------------");
             player.sendMessage(" ");
-            player.sendMessage("§7[§cRedLoto§7] Lancement du prochain Lotto, résultat dans : "+delayInMin+" mins ! Faites vos jeux... (/lotto)");
+            player.sendMessage("§7[§cRedLoto§7] Lancement du prochain Loto, résultat dans : "+delayInMin+" mins ! Faites vos jeux... (/loto)");
             player.sendMessage(" ");
             player.sendMessage("§8§m-------------------------------------------------");
             player.sendMessage(" ");
